@@ -1,92 +1,105 @@
-import React, { useState } from 'react';
-import { Text, SafeAreaView, StyleSheet, TextInput, Button, View } from 'react-native';
+import React, { useState } from "react";
+import {
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  Button,
+  View,
+} from "react-native";
 
 export default function App() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [isLogin, setIsLogin] = useState(true); 
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
+  const [message, setMessage] = useState("");
 
   const handlePress = async () => {
     if (isLogin) {
-      if (email === '' || password === '') {
-        setMessage('Please fill out all fields.');
+      if (email === "" || password === "") {
+        setMessage("Please fill out all fields.");
         return;
       }
-      setMessage('Login successful');
+      setMessage("Login successful");
     } else {
-      if (email === '' || password === '' || firstName === '' || lastName === '') {
-        setMessage('Please fill out all fields.');
+      if (
+        email === "" ||
+        password === "" ||
+        firstName === "" ||
+        lastName === ""
+      ) {
+        setMessage("Please fill out all fields.");
         return;
       }
-      setMessage('Registration successful');
+      setMessage("Registration successful");
     }
-    const url = isLogin ? 'http://192.168.0.8:5000/login' : 'http://192.168.0.8:5000/register';
+    const url = isLogin
+      ? "http://192.168.0.8:5000/login"
+      : "http://192.168.0.8:5000/register";
     const body = isLogin
       ? { username: email, password }
       : { username: email, password }; // Backend only expects username and password for registration
 
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(body),
       });
 
       const result = await response.json();
       if (response.ok) {
-        setMessage(isLogin ? 'Login successful' : 'Registration successful');
+        setMessage(isLogin ? "Login successful" : "Registration successful");
         if (isLogin && result.token) {
           // You can save the token for future authenticated requests
-          console.log('JWT Token:', result.token);
+          console.log("JWT Token:", result.token);
         }
       } else {
-        setMessage(result.message || 'Something went wrong.');
+        setMessage(result.message || "Something went wrong.");
       }
     } catch (error) {
-      setMessage('Error connecting to the server.');
+      setMessage("Error connecting to the server.");
     }
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.headerText}>{isLogin ? "Login" : "Sign Up"}</Text>
-        
+
         {!isLogin && (
           <>
             <TextInput
               style={styles.input}
               placeholder="Enter first name"
               value={firstName}
-              onChangeText={text => setFirstName(text)}
+              onChangeText={(text) => setFirstName(text)}
             />
             <TextInput
               style={styles.input}
               placeholder="Enter last name"
               value={lastName}
-              onChangeText={text => setLastName(text)}
+              onChangeText={(text) => setLastName(text)}
             />
           </>
         )}
-        
+
         <TextInput
           style={styles.input}
           placeholder="Enter email"
           value={email}
-          onChangeText={text => setEmail(text)}
+          onChangeText={(text) => setEmail(text)}
           keyboardType="email-address"
         />
         <TextInput
           style={styles.input}
           placeholder="Enter password"
           value={password}
-          onChangeText={text => setPassword(text)}
+          onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
         />
 
@@ -114,34 +127,34 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 16,
   },
   headerText: {
     fontSize: 24,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   input: {
     height: 40,
-    width:'80%',
-    borderColor: 'gray',
+    width: "80%",
+    borderColor: "gray",
     borderWidth: 1,
-    margin: 'auto',
+    margin: "auto",
     marginBottom: 12,
     paddingLeft: 8,
   },
   buttonContainer: {
     marginTop: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   button: {
-    width: '75%', // 75% of the width
+    width: "75%", // 75% of the width
     marginBottom: 15, // spacing between buttons
   },
   message: {
     marginTop: 20,
-    color: 'green',
-    textAlign: 'center',
+    color: "green",
+    textAlign: "center",
   },
 });
