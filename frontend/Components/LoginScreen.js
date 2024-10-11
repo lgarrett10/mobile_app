@@ -1,21 +1,14 @@
-import React, { useState } from "react";
-import {
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  TextInput,
-  Button,
-  View,
-} from "react-native";
+import React, { useState } from 'react';
+import { Text, SafeAreaView, StyleSheet, TextInput, Button, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation, setIsLoggedIn }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [isLogin, setIsLogin] = useState(true);
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [isLogin, setIsLogin] = useState(true); 
+  const [message, setMessage] = useState('');
 
   const handlePress = async () => {
     if (isLogin) {
@@ -72,42 +65,41 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
       setMessage('Error connecting to the server.');
     }
   };
-  
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.headerText}>{isLogin ? "Login" : "Sign Up"}</Text>
-
+        
         {!isLogin && (
           <>
             <TextInput
               style={styles.input}
               placeholder="Enter first name"
               value={firstName}
-              onChangeText={(text) => setFirstName(text)}
+              onChangeText={text => setFirstName(text)}
             />
             <TextInput
               style={styles.input}
               placeholder="Enter last name"
               value={lastName}
-              onChangeText={(text) => setLastName(text)}
+              onChangeText={text => setLastName(text)}
             />
           </>
         )}
-
+        
         <TextInput
           style={styles.input}
           placeholder="Enter email"
           value={email}
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={text => setEmail(text)}
           keyboardType="email-address"
         />
         <TextInput
           style={styles.input}
           placeholder="Enter password"
           value={password}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={text => setPassword(text)}
           secureTextEntry={true}
         />
 
@@ -135,34 +127,34 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: 16,
   },
   headerText: {
     fontSize: 24,
     marginBottom: 20,
-    textAlign: "center",
+    textAlign: 'center',
   },
   input: {
     height: 40,
-    width: "80%",
-    borderColor: "gray",
+    width:'80%',
+    borderColor: 'gray',
     borderWidth: 1,
-    margin: "auto",
+    margin: 'auto',
     marginBottom: 12,
     paddingLeft: 8,
   },
   buttonContainer: {
     marginTop: 20,
-    alignItems: "center",
+    alignItems: 'center',
   },
   button: {
-    width: "75%", // 75% of the width
+    width: '75%', // 75% of the width
     marginBottom: 15, // spacing between buttons
   },
   message: {
     marginTop: 20,
-    color: "green",
-    textAlign: "center",
+    color: 'green',
+    textAlign: 'center',
   },
 });
