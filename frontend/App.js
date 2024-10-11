@@ -42,10 +42,9 @@ export default function App() {
             <Stack.Screen name="Welcome" options={{ headerShown: false }}>
               {props => <WelcomeScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
             </Stack.Screen>
-            <Stack.Screen name="TestScreen" options={{ headerShown: false }}>
+            <Stack.Screen name="TestScreen" options={{headerShown: false}}>
               {props => <TestScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
             </Stack.Screen>
-
           </>
         ) : (
           // Not logged in, show the Login screen
