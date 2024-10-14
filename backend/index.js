@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 // Registration route
 app.post('/register', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, firstname, lastname } = req.body;
 
     // Check if the user already exists
     const existingUser = await User.findOne({ username });
@@ -43,7 +43,7 @@ app.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
-    const newUser = new User({ username, password: hashedPassword });
+    const newUser = new User({ username, password: hashedPassword, firstname, lastname });
     await newUser.save();
 
     res.status(201).json({ message: 'User registered successfully' });

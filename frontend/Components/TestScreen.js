@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, Text, Button, StyleSheet, View } from "react-native";
+import { SafeAreaView, Text, Button, StyleSheet } from "react-native";
 
 export default function TestScreen({navigation}) {
     
