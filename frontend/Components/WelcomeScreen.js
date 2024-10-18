@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, Text, Button, StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from './styles/styles';
 
 export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const handleLogout = async () => {
@@ -57,33 +58,3 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        padding: 16,
-      },
-      headerText: {
-        fontSize: 24,
-        marginBottom: 20,
-        textAlign: "center",
-      },
-      buttonContainer: {
-        marginVertical: 10,
-        alignSelf: 'center',
-        width: '50%',
-        display: 'flex',
-        justifyContent: 'space-between',
-        height: 80,
-      },
-      item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-      },  
-      title: {
-        fontSize: 32,
-      },
-});

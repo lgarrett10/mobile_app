@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, SafeAreaView, StyleSheet, TextInput, Button, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from './styles/styles';
 
 export default function LoginScreen({ navigation, setIsLoggedIn }) {
   const [email, setEmail] = useState('');
@@ -102,19 +103,20 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
           onChangeText={text => setPassword(text)}
           secureTextEntry={true}
         />
-
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Button
-              title={isLogin ? "Login" : "Sign Up"}
-              onPress={handlePress}
-            />
-          </View>
-          <View style={styles.button}>
-            <Button
-              title={isLogin ? "Switch to Sign Up" : "Switch to Login"}
-              onPress={() => setIsLogin(!isLogin)}
-            />
+        <View>
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <Button
+                title={isLogin ? "Login" : "Sign Up"}
+                onPress={handlePress}
+              />
+            </View>
+            <View style={styles.button}>
+              <Button
+                title={isLogin ? "Switch to Sign Up" : "Switch to Login"}
+                onPress={() => setIsLogin(!isLogin)}
+              />
+            </View>
           </View>
         </View>
 
@@ -124,37 +126,11 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-  },
-  headerText: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    height: 40,
-    width:'80%',
-    borderColor: 'gray',
-    borderWidth: 1,
-    margin: 'auto',
-    marginBottom: 12,
-    paddingLeft: 8,
-  },
-  buttonContainer: {
+const loginStyles = StyleSheet.create({
+  loginButtonContainer: {
     marginTop: 20,
-    alignItems: 'center',
-  },
-  button: {
-    width: '75%', // 75% of the width
-    marginBottom: 15, // spacing between buttons
-  },
-  message: {
-    marginTop: 20,
-    color: 'green',
-    textAlign: 'center',
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
   },
 });
