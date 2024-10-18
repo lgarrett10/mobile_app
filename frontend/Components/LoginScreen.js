@@ -47,7 +47,10 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
           setMessage('Login successful');
           if (result.token) {
             // Save token and update login state
+            console.log('Received token:', result.token);
             await AsyncStorage.setItem('token', result.token);
+            const storedToken = await AsyncStorage.getItem('token');
+            console.log('Stored token:', storedToken);
             setIsLoggedIn(true);
             navigation.reset({
               index: 0,
