@@ -15,23 +15,24 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   };
 
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const navigateToTestScreen = () => {
     navigation.navigate('TestScreen');
   };
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts?_limit=2')
-      .then((response) => response.json())
-      .then((json) =>{ 
-        setData(json)
-    })
-      .catch((error) => {
-        console.error('error fetching data', error)
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch('https://jsonplaceholder.typicode.com/posts?_limit=2')
+  //     .then((response) => response.json())
+  //     .then((json) =>{ 
+  //       setData(json)
+  //   })
+  //     .catch((error) => {
+  //       console.error('error fetching data', error)
+  //     })
+  //     .finally(() => setLoading(false));
+  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,16 +40,18 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
+        data.length ? (
         <FlatList
           data={data}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View style={styles.item}>
               <Text style={styles.title}>{item.title}</Text>
-              <Text>{item.body}</Text>
             </View>
           )}
-        />
+        />) : (
+          <Text>No data</Text>
+        )
       )}
 
       <View style={styles.buttonContainer}>

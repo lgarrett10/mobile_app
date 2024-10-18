@@ -6,6 +6,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 16,
+    paddingVertical: 50,
   },
   headerText: {
     fontSize: 24,
