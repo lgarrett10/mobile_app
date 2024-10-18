@@ -48,4 +48,8 @@ export default StyleSheet.create({
   title: {
     fontSize: 32,
   },
+  description: {
+    fontSize: 14,
+    color: '#666',
+  },
 });
