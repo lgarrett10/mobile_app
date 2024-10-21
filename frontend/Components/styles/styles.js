@@ -40,10 +40,21 @@ export default StyleSheet.create({
     height: 80,
   },
   item: {
-    backgroundColor: "#f9c2ff",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#dfdfdf",
+    padding: 10,
+    marginVertical: 5,
+    boxShadow: "0 0 10px #ccc",
+  },
+  itemActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 12,
+  },
+  actionText: {
+    color: 'blue',
+    marginHorizontal: 5,
   },
   title: {
     fontSize: 32,
@@ -52,4 +63,5 @@ export default StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
+
 });
