@@ -21,8 +21,8 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const navigateToTestScreen = () => {
-    navigation.navigate("TestScreen");
+  const navigateToCameraFeature = () => {
+    navigation.navigate("CameraFeature");
   };
 
   useEffect(() => {
@@ -178,11 +178,19 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
         )}
       </View>
       <AddItemModal onAddItem={addItem} />
+      {selectedItem && (
+            <EditItemModal
+              item={selectedItem}
+              isVisible={isEditModalVisible}
+              onClose={() => setIsEditModalVisible(false)}
+              onSave={saveEditedItem}
+            />
+      )}
       <View style={styles.footerContainer}>
         <Button
           style={styles.button}
-          title="Test Screen"
-          onPress={navigateToTestScreen}
+          title="Camera Feature"
+          onPress={navigateToCameraFeature}
         />
         <Button style={styles.button} title="Logout" onPress={handleLogout} />
       </View>
