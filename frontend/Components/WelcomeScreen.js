@@ -21,8 +21,8 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const navigateToTestScreen = () => {
-    navigation.navigate("TestScreen");
+  const navigateToCameraFeature = () => {
+    navigation.navigate("CameraFeature");
   };
 
   useEffect(() => {
@@ -146,11 +146,13 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.headerText}>Welcome!</Text>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : data.length ? (
-        <View>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Welcome!</Text>
+      </View>
+      <View style={styles.listContainer}>
+        {loading ? (
+          <ActivityIndicator size="large" color="#ff00ff" />
+        ): data.length ? (
           <FlatList
             data={data}
             keyExtractor={(item) => item._id.toString()}
@@ -169,28 +171,26 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
               </View>
             )}
           />
-          <AddItemModal onAddItem={addItem} />
-          {selectedItem && (
+        ):(
+          <View>
+            <Text>No items found</Text>
+          </View>
+        )}
+      </View>
+      <AddItemModal onAddItem={addItem} />
+      {selectedItem && (
             <EditItemModal
               item={selectedItem}
               isVisible={isEditModalVisible}
               onClose={() => setIsEditModalVisible(false)}
               onSave={saveEditedItem}
             />
-          )}
-        </View>
-      ) : (
-        <View>
-          <Text>No Items, press '+' to add items</Text>
-          <AddItemModal onAddItem={addItem} />
-        </View>
       )}
-
-      <View style={styles.buttonContainer}>
+      <View style={styles.footerContainer}>
         <Button
           style={styles.button}
-          title="Test Screen"
-          onPress={navigateToTestScreen}
+          title="Camera Feature"
+          onPress={navigateToCameraFeature}
         />
         <Button style={styles.button} title="Logout" onPress={handleLogout} />
       </View>
