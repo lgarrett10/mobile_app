@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from './Components/LoginScreen';
 import WelcomeScreen from './Components/WelcomeScreen';
 import CameraFeature from './Components/CameraFeature';
+import ProfileScreen from './Components/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,9 @@ export default function App() {
           <>
             <Stack.Screen name="Welcome" options={{ headerShown: false }}>
               {props => <WelcomeScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+            </Stack.Screen>
+            <Stack.Screen name="Profile" options={{ headerShown: false }}>
+              {props => <ProfileScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
             </Stack.Screen>
             <Stack.Screen name="CameraFeature" options={{headerShown: false}}>
               {props => <CameraFeature {...props} setIsLoggedIn={setIsLoggedIn} />}
