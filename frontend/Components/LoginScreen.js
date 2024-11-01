@@ -47,10 +47,10 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
           setMessage('Login successful');
           if (result.token) {
             // Save token and update login state            
-            await AsyncStorage.setItem('username', username); // Updated to save username
+            // await AsyncStorage.setItem('username', username); // Updated to save username
             await AsyncStorage.setItem('token', result.token);
-            await AsyncStorage.setItem('firstname', firstname); // Store first name from response or state
-            await AsyncStorage.setItem('lastname', lastname); // Store last name from response or state
+            // await AsyncStorage.setItem('firstname', firstname); // Store first name from response or state
+            // await AsyncStorage.setItem('lastname', lastname); // Store last name from response or state
             setIsLoggedIn(true);
             navigation.reset({
               index: 0,

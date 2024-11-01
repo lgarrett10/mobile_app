@@ -32,8 +32,8 @@ export default function ProfileScreen() {
   
         });
         setUsername(userUsername); // Changed to username
-        setFirstName(userFirstName);
-        setLastName(userLastName);
+        setFirstName(userFirstName || 'First Name');
+        setLastName(userLastName || 'Last Name');
       
       } catch (error) {
         console.log('Error fetching user data:', error);
