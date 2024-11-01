@@ -4,34 +4,34 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './styles/styles';
 
 export default function LoginScreen({ navigation, setIsLoggedIn }) {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState(''); // Changed from email to username
   const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [isLogin, setIsLogin] = useState(true); 
+  const [firstname, setFirstName] = useState(''); // State for first name
+  const [lastname, setLastName] = useState(''); // State for last name
+  const [isLogin, setIsLogin] = useState(true);
   const [message, setMessage] = useState('');
 
   const handlePress = async () => {
     if (isLogin) {
-      if (email === '' || password === '') {
+      if (username === '' || password === '') {
         setMessage('Please fill out all fields.');
         return;
       }
     } else {
-      if (email === '' || password === '' || firstName === '' || lastName === '') {
+      if (username === '' || password === '' || firstname === '' || lastname === '') {
         setMessage('Please fill out all fields.');
         return;
       }
     }
-  
+
     const url = isLogin
-      ? 'http://192.168.1.254:5000/users/login'
-      : 'http://192.168.1.254:5000/users/register';
-  
+      ? 'http://localhost:5000/users/login'
+      : 'http://localhost:5000/users/register';
+
     const body = isLogin
-      ? { username: email, password }
-      : { username: email, password, firstname: firstName, lastname: lastName };
-  
+      ? { username: username, password }
+      : { username: username, password, firstname: firstname, lastname: lastname }; // Include first name and last name in registration
+
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -40,17 +40,17 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
         },
         body: JSON.stringify(body),
       });
-  
+
       const result = await response.json();
       if (response.ok) {
         if (isLogin) {
           setMessage('Login successful');
           if (result.token) {
-            // Save token and update login state
-            console.log('Received token:', result.token);
+            // Save token and update login state            
+            await AsyncStorage.setItem('username', username); // Updated to save username
             await AsyncStorage.setItem('token', result.token);
-            const storedToken = await AsyncStorage.getItem('token');
-            console.log('Stored token:', storedToken);
+            await AsyncStorage.setItem('firstname', firstname); // Store first name from response or state
+            await AsyncStorage.setItem('lastname', lastname); // Store last name from response or state
             setIsLoggedIn(true);
             navigation.reset({
               index: 0,
@@ -80,13 +80,13 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             <TextInput
               style={styles.input}
               placeholder="Enter first name"
-              value={firstName}
+              value={firstname}
               onChangeText={text => setFirstName(text)}
             />
             <TextInput
               style={styles.input}
               placeholder="Enter last name"
-              value={lastName}
+              value={lastname}
               onChangeText={text => setLastName(text)}
             />
           </>
@@ -94,10 +94,9 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
         
         <TextInput
           style={styles.input}
-          placeholder="Enter email"
-          value={email}
-          onChangeText={text => setEmail(text)}
-          keyboardType="email-address"
+          placeholder="Enter username" // Updated placeholder
+          value={username} // Updated to use username
+          onChangeText={text => setUsername(text)} // Updated to use username
         />
         <TextInput
           style={styles.input}

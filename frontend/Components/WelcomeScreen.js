@@ -1,4 +1,3 @@
-// WelcomeScreen.js
 import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
@@ -20,17 +19,34 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState('');
+
+  const navigateToProfileScreen = () => {
+    navigation.navigate("ProfileScreen");
+  };
 
   const navigateToCameraFeature = () => {
     navigation.navigate("CameraFeature");
   };
 
   useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const storedUsername = await AsyncStorage.getItem("username"); // Ensure the key is correct
+        setUsername(storedUsername || 'User');
+      } catch (error) {
+        console.error("Error fetching first name", error);
+      }
+    };
+    fetchUsername();
+  }, []);
+
+  useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://192.168.0.8:5000/items/", {
+        const response = await fetch("http://192.168.1.254:5000/items/", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -65,7 +81,7 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const handleDeletePress = async (itemId) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch(`http://192.168.0.8:5000/items/${itemId}`, {
+      const response = await fetch(`http://192.168.1.254:5000/items/${itemId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +106,7 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       console.log("Token in addItem:", token);
-      const response = await fetch("http://192.168.0.8:5000/items/", {
+      const response = await fetch("http://192.168.1.254:5000/items/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -116,7 +132,7 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://192.168.0.8:5000/items/${editedItem._id}`,
+        `http://192.168.1.254:5000/items/${editedItem._id}`,
         {
           method: "PUT",
           headers: {
@@ -144,15 +160,16 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
       alert("Failed to update item");
     }
   };
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Welcome!</Text>
+        <Text style={styles.headerText}>Welcome, {username}!</Text>
       </View>
       <View style={styles.listContainer}>
         {loading ? (
           <ActivityIndicator size="large" color="#ff00ff" />
-        ): data.length ? (
+        ) : data.length ? (
           <FlatList
             data={data}
             keyExtractor={(item) => item._id.toString()}
@@ -171,7 +188,7 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
               </View>
             )}
           />
-        ):(
+        ) : (
           <View>
             <Text>No items found</Text>
           </View>
@@ -179,20 +196,29 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
       </View>
       <AddItemModal onAddItem={addItem} />
       {selectedItem && (
-            <EditItemModal
-              item={selectedItem}
-              isVisible={isEditModalVisible}
-              onClose={() => setIsEditModalVisible(false)}
-              onSave={saveEditedItem}
-            />
+        <EditItemModal
+          item={selectedItem}
+          isVisible={isEditModalVisible}
+          onClose={() => setIsEditModalVisible(false)}
+          onSave={saveEditedItem}
+        />
       )}
       <View style={styles.footerContainer}>
+        <Button
+          style={styles.button}
+          title="Profile"
+          onPress={navigateToProfileScreen}
+        />
         <Button
           style={styles.button}
           title="Camera Feature"
           onPress={navigateToCameraFeature}
         />
-        <Button style={styles.button} title="Logout" onPress={handleLogout} />
+        <Button
+          style={styles.button}
+          title="Logout"
+          onPress={handleLogout}
+        />
       </View>
     </SafeAreaView>
   );

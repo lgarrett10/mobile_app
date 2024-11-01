@@ -3,8 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// Import your screens
 import LoginScreen from './Components/LoginScreen';
 import WelcomeScreen from './Components/WelcomeScreen';
 import CameraFeature from './Components/CameraFeature';
@@ -13,7 +11,7 @@ import ProfileScreen from './Components/ProfileScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(null); // Initialize as null
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -30,7 +28,6 @@ export default function App() {
   }, []);
 
   if (isLoggedIn === null) {
-    // Optional: Show a loading indicator while checking login status
     return null;
   }
 
@@ -38,20 +35,18 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {isLoggedIn ? (
-          // If logged in, show the Welcome screen
           <>
             <Stack.Screen name="Welcome" options={{ headerShown: false }}>
               {props => <WelcomeScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
             </Stack.Screen>
-            <Stack.Screen name="Profile" options={{ headerShown: false }}>
-              {props => <ProfileScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+            <Stack.Screen name="ProfileScreen" options={{ headerShown: false }}>
+              {props => <ProfileScreen {...props} />}
             </Stack.Screen>
-            <Stack.Screen name="CameraFeature" options={{headerShown: false}}>
+            <Stack.Screen name="CameraFeature" options={{ headerShown: false }}>
               {props => <CameraFeature {...props} setIsLoggedIn={setIsLoggedIn} />}
             </Stack.Screen>
           </>
         ) : (
-          // Not logged in, show the Login screen
           <Stack.Screen name="Login" options={{ headerShown: false }}>
             {props => <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
           </Stack.Screen>

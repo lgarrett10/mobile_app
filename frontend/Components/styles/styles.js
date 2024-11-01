@@ -82,5 +82,16 @@ export default StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-
+  profileText: {
+    textAlign: "center",
+    fontSize: "20"
+  },
+  profileContainer: {
+    height: "100%",
+    display: "flex",
+    flex: 1,
+    justifyContent: "center",
+    padding: 16,
+    paddingVertical: 50,
+  }
 });
