@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   ActivityIndicator,
+  Image, // Import the Image component
 } from "react-native";
 import AddItemModal from "./AddItemModal";
 import EditItemModal from "./EditItemModal";
@@ -20,6 +21,7 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
+  const [profileImage, setProfileImage] = useState(''); // State for profile image
 
   const navigateToProfileScreen = () => {
     navigation.navigate("ProfileScreen");
@@ -30,15 +32,17 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   };
 
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchUsernameAndImage = async () => {
       try {
-        const storedUsername = await AsyncStorage.getItem("username"); // Ensure the key is correct
+        const storedUsername = await AsyncStorage.getItem("username");
+        const storedImage = await AsyncStorage.getItem("profileImage"); // Fetch profile image
         setUsername(storedUsername || 'User');
+        setProfileImage(storedImage || ''); // Set profile image
       } catch (error) {
-        console.error("Error fetching first name", error);
+        console.error("Error fetching user data", error);
       }
     };
-    fetchUsername();
+    fetchUsernameAndImage();
   }, []);
 
   useEffect(() => {
@@ -164,6 +168,14 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
+        {profileImage ? ( // Render the profile image if available
+          <Image
+            source={{ uri: profileImage }} // Use the stored image URL
+            style={styles.profileImage}
+          />
+        ) : (
+          <Text style={styles.placeholderImage}>No Profile Image</Text>
+        )}
         <Text style={styles.headerText}>Welcome, {username}!</Text>
       </View>
       <View style={styles.listContainer}>

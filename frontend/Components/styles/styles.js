@@ -93,5 +93,11 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 16,
     paddingVertical: 50,
-  }
+  },
+  darkContainer: {
+    backgroundColor: '#333',
+  },
+  lightContainer: {
+    backgroundColor: '#fff',
+  },
 });
