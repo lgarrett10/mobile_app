@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const User = require("../models/User");
+const authMiddleware = require("../middleware/authMiddleware")
 
 const router = express.Router();
 require("dotenv").config();
@@ -56,7 +57,16 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
     });
     console.log("token", token);
-    res.json({ token });
+    const userInfo = {
+      id: user._id,
+      username: user.username,
+      firstname: user.firstname,
+      lastname: user.lastname,
+    };
+
+    console.log("userInfo:", userInfo);
+
+    res.json({ token, user: userInfo });
   } catch (error) {
     res.status(500).json({ error: "Failed to login" });
     console.error("Error:", error);

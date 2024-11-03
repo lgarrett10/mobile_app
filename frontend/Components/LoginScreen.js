@@ -25,8 +25,8 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     }
 
     const url = isLogin
-      ? 'http://173.216.45.118:5000/users/login'
-      : 'http://173.216.45.118:5000/users/register';
+      ? 'http://localhost:5000/users/login'
+      : 'http://localhost:5000/users/register';
 
     const body = isLogin
       ? { username: username, password }
@@ -49,8 +49,9 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             // Save token and update login state            
             await AsyncStorage.setItem('username', username); // Updated to save username
             await AsyncStorage.setItem('token', result.token);
-            await AsyncStorage.setItem('firstname', firstname); // Store first name from response or state
-            await AsyncStorage.setItem('lastname', lastname); // Store last name from response or state
+            await AsyncStorage.setItem('firstname', result.user.firstname); // Store first name from response or state
+            await AsyncStorage.setItem('lastname', result.user.lastname); // Store last name from response or state
+            await AsyncStorage.setItem('userID', result.user.id);
             setIsLoggedIn(true);
             navigation.reset({
               index: 0,
